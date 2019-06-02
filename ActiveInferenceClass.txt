@@ -1,0 +1,84 @@
+
+abstract class ModelVisitor
+{
+
+  abstract void visit(MonteCarlo mc);
+  abstract void visit(NewData nd);
+
+}
+
+abstract class Update
+{
+
+  abstract void accept(ModelVisitor mv);
+
+}
+
+class SetValuesToPredict extends Update
+{
+
+  public int[] valueInserted;
+
+  public SetValue(int[] value)
+
+  {
+
+    this.valueInserted = value;
+
+  }
+  
+
+  @Override
+  void accept(ModelVisitor mv)
+
+  {
+
+    MonteCarlo mc = new MonteCarlo(10000, "random", "db02up");
+    mv.visit(mc);
+
+  }
+
+}
+
+class Predict extends Update
+{
+
+  public int prob;
+
+  public int predict(SetValuesToPredict lhs, SetValuesToPredict rhs)
+  {
+    
+    //here is the ML code for predicton 
+	
+  }
+
+  @Override
+  void accept(ModelVisitor mv)
+  {
+
+    mv.visit(this);
+
+  }
+
+}
+
+class UpdateExample extends ModelVisitor
+{
+
+  @Override
+  void visit(Predict pr)
+  {
+
+    pr.lhs.accept(this);
+    
+    //here is some additional code e.g. to 
+    //send mail that models is updating
+
+    
+
+  }
+
+}
+
+
+
